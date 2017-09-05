@@ -44,3 +44,20 @@ resource "aws_subnet" "private" {
     }
 }
 
+## EIP
+resource "aws_eip" "nat_gateway" {
+    count = "${length(data.aws_availability_zones.az.names)}"
+}
+
+## Gateways
+
+### Internet Gateway
+resource "aws_internet_gateway" "main" {
+    vpc_id = "${aws_vpc.main.id}"
+
+    tags {
+        Name = "${var.name}-${terraform.env}"
+        Environment = "${terraform.env}"
+    }
+}
+
