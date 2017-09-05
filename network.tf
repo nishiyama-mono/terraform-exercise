@@ -61,3 +61,19 @@ resource "aws_internet_gateway" "main" {
     }
 }
 
+## Route Table
+
+resource "aws_route_table" "public" {
+    vpc_id = "${aws_vpc.main.id}"
+
+    route {
+        cidr_block = "${var.cidr["any"]}"
+        gateway_id = "${aws_internet_gateway.main.id}"
+    }
+
+    tags {
+        Name = "${var.name}-${terraform.env}-public"
+        Environment = "${terraform.env}"
+    }
+}
+

@@ -15,6 +15,7 @@ variable "cidr" {
 
     default = {
         vpc = "10.0.0.0/8"
+        any = "0.0.0.0/0"
     }
 }
 
