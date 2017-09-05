@@ -40,3 +40,21 @@ variable "private_offset" {
     default = "100"
 }
 
+variable "opsworks_instance_type" {
+  type = "map"
+
+  default = {
+    web.stg = "t2.micro"
+    web.prd = "t2.micro"
+  }
+}
+
+variable "opsworks_instance_count" {
+  type = "map"
+
+  default = {
+    web.stg = 2
+    web.prd = 2
+  }
+}
+
