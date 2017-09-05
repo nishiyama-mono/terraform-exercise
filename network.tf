@@ -12,3 +12,35 @@ resource "aws_vpc" "main" {
     }
 }
 
+## Subnets
+
+### Public Subnet
+resource "aws_subnet" "public" {
+    vpc_id = "${aws_vpc.main.id}"
+
+    count = "${length(data.aws_availability_zones.az.names)}"
+
+    cidr_block = "${cidrsubnet(aws_vpc.main.cidr_block, var.newbit, count.index)}"
+    availability_zone = "${data.aws_availability_zones.az.names[count.index]}"
+
+    tags {
+        Name = "${var.name}-${terraform.env}-public-${count.index}"
+        Environment = "${terraform.env}"
+    }
+}
+
+### Private Subnet
+resource "aws_subnet" "private" {
+    vpc_id = "${aws_vpc.main.id}"
+
+    count = "${length(data.aws_availability_zones.az.names)}"
+
+    cidr_block = "${cidrsubnet(aws_vpc.main.cidr_block, var.newbit, count.index + var.private_offset)}"
+    availability_zone = "${data.aws_availability_zones.az.names[count.index]}"
+
+    tags {
+        Name = "${var.name}-${terraform.env}-public-${count.index}"
+        Environment = "${terraform.env}"
+    }
+}
+

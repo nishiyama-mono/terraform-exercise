@@ -35,3 +35,7 @@ variable "application_segment" {
     default = "20"
 }
 
+variable "private_offset" {
+    default = "100"
+}
+
